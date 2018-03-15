@@ -1,0 +1,10 @@
+.home_card_params {
+  max-height: 225px; 
+  width: 100%; 
+  display: block;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 16px;
+}
