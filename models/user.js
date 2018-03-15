@@ -1,21 +1,13 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var schema = new Schema({
-  imagePath: {
+var userSchema = new Schema({
+  email: {
     type: String,
-    required: true
+    required:true
   },
-  title: {
+  password: {
     type: String,
-    required: true
-  },
-  description: {
-    type: String,
-    required: true
-  },
-  price: {
-    type: Number,
     required: true
   }
 });

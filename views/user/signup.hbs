@@ -1,0 +1,30 @@
+<div class="form-wrap">
+  <div class="tabs">
+    <h3 class="signup-tab">
+      <a class="active" href="#signup-tab-content">Sign Up</a>
+    </h3>
+  </div>
+  <!--.tabs-->
+
+  <div class="tabs-content">
+    <div id="signup-tab-content" class="active">
+      <form class="signup-form" action="/user/signup" method="post">
+        <input type="email" class="input" id="user_email" autocomplete="on" placeholder="Email">
+        <input type="password" class="input" id="user_pass" autocomplete="on" placeholder="Password">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <input type="submit" class="button" value="Sign Up">
+      </form>
+      <!--.login-form-->
+      <div class="help-text">
+        <p>By signing up, you agree to our</p>
+        <p>
+          <a href="#">Terms of service</a>
+        </p>
+      </div>
+      <!--.help-text-->
+    </div>
+    <!--.signup-tab-content-->
+  </div>
+  <!--.tabs-content-->
+</div>
+<!--.form-wrap-->
