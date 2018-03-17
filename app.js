@@ -15,7 +15,10 @@ var index = require('./routes/index');
 var app = express();
 
 //Mongoose setup
-mongoose.connect(process.env.DB_URL || 'mongodb://localhost/shoppingCart')
+mongoose.connect(process.env.DB_URL || 'mongodb://localhost/shoppingCart');
+
+//load passport config
+require('./config/passport');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));

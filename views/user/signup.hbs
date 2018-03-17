@@ -1,16 +1,22 @@
 <div class="form-wrap">
   <div class="tabs">
-    <h3 class="signup-tab">
-      <a class="active" href="#signup-tab-content">Sign Up</a>
-    </h3>
+    <h3 class="signup-tab">Sign Up</h3>
   </div>
   <!--.tabs-->
+
+   {{#if hasErrors}}
+  <div class="alert alert-danger" style="margin-bottom: 0px;">
+    {{# each messages}}
+    <p style="margin-bottom: 0px;">{{this}}</p>
+    {{/each}}
+  </div>
+  {{/if}}
 
   <div class="tabs-content">
     <div id="signup-tab-content" class="active">
       <form class="signup-form" action="/user/signup" method="post">
-        <input type="email" class="input" id="user_email" autocomplete="on" placeholder="Email">
-        <input type="password" class="input" id="user_pass" autocomplete="on" placeholder="Password">
+        <input type="email" class="input" id="email" name="email" autocomplete="on" placeholder="Email">
+        <input type="password" class="input" id="password" name="password" autocomplete="on" placeholder="Password">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <input type="submit" class="button" value="Sign Up">
       </form>
