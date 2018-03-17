@@ -1,0 +1,29 @@
+<div class="form-wrap">
+  <div class="tabs">
+    <h3 class="signup-tab">Sign In</h3>
+  </div>
+  <!--.tabs-->
+
+  {{#if hasErrors}}
+  <div class="alert alert-danger" style="margin-bottom: 0px;">
+    {{# each messages}}
+    <p style="margin-bottom: 0px;">{{this}}</p>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  <div class="tabs-content">
+    <div id="signup-tab-content" class="active">
+      <form class="signup-form" action="/user/signin" method="post">
+        <input type="email" class="input" id="email" name="email" autocomplete="on" placeholder="Email">
+        <input type="password" class="input" id="password" name="password" autocomplete="on" placeholder="Password">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <input type="submit" class="button" value="Sign In">
+      </form>
+      <!--.login-form-->
+    </div>
+    <!--.signup-tab-content-->
+  </div>
+  <!--.tabs-content-->
+</div>
+<!--.form-wrap-->
