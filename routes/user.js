@@ -7,6 +7,20 @@ var passport = require('passport');
 var csrfProtection = csrf();
 router.use(csrfProtection);
 
+// User profile route
+router.get('/profile', isLoggedIn, function (req, res, next) {
+  res.render('user/profile');
+});
+
+router.get('/logout', isLoggedIn, function (req, res, next) {
+  req.logout();
+  res.redirect('/');
+});
+
+router.use('/', notLoggedIn, function(req, res, next) {
+  next();
+});
+
 // User management: signup
 router.get('/signup', function (req, res, next) {
   var messages = req.flash('error');
@@ -31,9 +45,20 @@ router.post('/signin', passport.authenticate('local.signin', {
   failureFlash: true
 }));
 
-// User profile route
-router.get('/profile', function (req, res, next) {
-  res.render('user/profile');
-});
-
 module.exports = router;
+
+//logged in identifier middleware
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+}
+
+//not logged in identifier middleware
+function notLoggedIn(req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+}

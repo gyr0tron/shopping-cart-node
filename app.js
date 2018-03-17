@@ -39,6 +39,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// set global variable
+app.use(function(req, res, next) {
+  res.locals.login = req.isAuthenticated();
+  next();
+});
+
 app.use('/user', userRoutes);
 app.use('/', index);
 
