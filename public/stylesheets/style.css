@@ -1,3 +1,10 @@
+.row { 
+  margin: auto;
+}
+
+.space{
+  margin-top: 5px;
+}
 .home_card_params {
   height: 230px;
   width: 100%; 
