@@ -1,66 +1,32 @@
-<div class="row">
-  <div class="col-sm-6 col-md-6 offset-md-3 offset-sm-3">
-    <h1>Checkout</h1>
-    <h4>Your Total: ${{total}}</h4>
-    <div id="charge-error" class="alert alert-danger {{#if noError}}hidden{{/if}}">
-      {{errMsg}}
+<script src="https://js.stripe.com/v3/"></script>
+    <link rel='stylesheet' href='/stylesheets/checkout.css'/>
+<form class="col-md-6 offset-md-3">
+  <label>
+    <input name="cardholder-name" class="field is-empty" placeholder="Jhon Doe" />
+    <span>
+      <span>Name</span>
+    </span>
+  </label>
+  <label>
+    <input class="field is-empty" type="tel" placeholder="(123) 456-7890" />
+    <span>
+      <span>Phone number</span>
+    </span>
+  </label>
+  <label>
+    <div id="card-element" class="field is-empty"></div>
+    <span>
+      <span>Credit or debit card</span>
+    </span>
+  </label>
+  <button type="submit">Pay ${{total}}</button>
+  <div class="outcome">
+    <div class="error" role="alert"></div>
+    <div class="success">
+      Success! Your Stripe token is
+      <span class="token"></span>
     </div>
-    <form action="/checkout" method="post" id="checkout-form">
-      <div class="row">
-        <div class="col-xs-12 col-md-12">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" class="form-control" required name="name">
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-12">
-          <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" id="address" class="form-control" required name="address">
-          </div>
-        </div>
-        <hr>
-        <div class="col-xs-12 col-md-12">
-          <div class="form-group">
-            <label for="card-name">Card Holder Name</label>
-            <input type="text" id="card-name" class="form-control" required>
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-12">
-          <div class="form-group">
-            <label for="card-number">Credit Card Number</label>
-            <input type="text" id="card-number" class="form-control" required>
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <div class="row">
-            <div class="col-xs-6 col-md-6">
-              <div class="form-group">
-                <label for="card-expiry-month">Expiration Month</label>
-                <input type="text" id="card-expiry-month" class="form-control" required>
-              </div>
-            </div>
-            <div class="col-xs-6 col-md-6">
-              <div class="form-group">
-                <label for="card-expiry-year">Expiration Year</label>
-                <input type="text" id="card-expiry-year" class="form-control" required>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xs-12 col-md-12">
-          <div class="form-group">
-            <label for="card-cvc">CVC</label>
-            <input type="text" id="card-cvc" class="form-control" required>
-          </div>
-        </div>
-      </div>
-      <div class="col-xs-3 col-md-3">
-        <button type="submit" class="btn btn-success">Buy now</button>
-      </div>
-    </form>
   </div>
-</div>
+</form>
 
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript" src="javascripts/checkout.js"></script>
