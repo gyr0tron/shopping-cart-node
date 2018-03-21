@@ -1,83 +1,38 @@
-var stripe = Stripe('pk_test_80unsDsW0IzFtM0yXRYRQsN8');
-var elements = stripe.elements();
+Stripe.setPublishableKey('pk_test_80unsDsW0IzFtM0yXRYRQsN8');
 
-var card = elements.create('card', {
-  iconStyle: 'solid',
-  style: {
-    base: {
-      iconColor: '#8898AA',
-      color: 'black',
-      lineHeight: '36px',
-      fontWeight: 300,
-      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-      fontSize: '19px',
+var $form = $('#checkout-form');
 
-      '::placeholder': {
-        color: '#8898AA',
-      },
-    },
-    invalid: {
-      iconColor: '#e85746',
-      color: '#e85746',
-    }
-  },
-  classes: {
-    focus: 'is-focused',
-    empty: 'is-empty',
-  },
-});
-card.mount('#card-element');
-
-var inputs = document.querySelectorAll('input.field');
-Array.prototype.forEach.call(inputs, function (input) {
-  input.addEventListener('focus', function () {
-    input.classList.add('is-focused');
-  });
-  input.addEventListener('blur', function () {
-    input.classList.remove('is-focused');
-  });
-  input.addEventListener('keyup', function () {
-    if (input.value.length === 0) {
-      input.classList.add('is-empty');
-    } else {
-      input.classList.remove('is-empty');
-    }
-  });
+$form.submit(function (event) {
+  $('#charge-error').addClass('hidden');
+  $form.find('button').prop('disabled', true);
+  Stripe.card.createToken({
+    number: $('#card-number').val(),
+    cvc: $('#card-cvc').val(),
+    exp_month: $('#card-expiry-month').val(),
+    exp_year: $('#card-expiry-year').val(),
+    name: $('#card-name').val()
+  }, stripeResponseHandler);
+  return false;
 });
 
-function setOutcome(result) {
-  var successElement = document.querySelector('.success');
-  var errorElement = document.querySelector('.error');
-  successElement.classList.remove('visible');
-  errorElement.classList.remove('visible');
+function stripeResponseHandler(status, response) {
+  if (response.error) { // Problem!
 
-  if (result.token) {
-    var charge = stripe.charges.create({
-      amount: 999,
-      currency: 'usd',
-      description: "Example charge",
-      source: token,
-      receipt_email: process.env.TEST_EMAIL,
-    });
-    // Use the token to create a charge or a customer
-    // https://stripe.com/docs/charges
-    successElement.querySelector('.token').textContent = result.token.id;
-    successElement.classList.add('visible');
-  } else if (result.error) {
-    errorElement.textContent = result.error.message;
-    errorElement.classList.add('visible');
+    // Show the errors on the form
+    $('#charge-error').text(response.error.message);
+    $('#charge-error').removeClass('hidden');
+    $form.find('button').prop('disabled', false); // Re-enable submission
+
+  } else { // Token was created!
+
+    // Get the token ID:
+    var token = response.id;
+
+    // Insert the token into the form so it gets submitted to the server:
+    $form.append($('<input type="hidden" name="stripeToken" />').val(token));
+
+    // Submit the form:
+    $form.get(0).submit();
+
   }
 }
-
-card.on('change', function (event) {
-  setOutcome(event);
-});
-
-document.querySelector('form').addEventListener('submit', function (e) {
-  e.preventDefault();
-  var form = document.querySelector('form');
-  var extraDetails = {
-    name: form.querySelector('input[name=cardholder-name]').value,
-  };
-  stripe.createToken(card, extraDetails).then(setOutcome);
-});
